@@ -89,7 +89,12 @@ var e = (e, t, n) => () => {
 		}
 	};
 })), i = /* @__PURE__ */ t((() => {
-	r(), new n().mount(document.body);
+	r();
+	var e = () => {
+		let e = document.getElementById("app") || document.body;
+		new n().mount(e);
+	};
+	document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", e) : e();
 }));
 //#endregion
 export default i();

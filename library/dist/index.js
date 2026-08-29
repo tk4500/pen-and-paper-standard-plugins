@@ -83,6 +83,10 @@ var e = class {
       <div class="file-name">${e.name}</div>
     `, this.fileGrid.appendChild(t);
 	}
+}, t = () => {
+	let t = document.getElementById("app");
+	t && new e(t);
 };
+document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", t) : t();
 //#endregion
 export { e as LibraryPlugin };

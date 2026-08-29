@@ -252,4 +252,18 @@ export class ChatPlugin {
 // Auto-initialize if we are the main entry point
 if (typeof window !== 'undefined') {
     (window as any).ChatPlugin = ChatPlugin;
+
+    const initPlugin = () => {
+        const app = document.getElementById('app');
+        if (app) {
+            const plugin = new ChatPlugin('app');
+            plugin.init();
+        }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPlugin);
+    } else {
+        initPlugin();
+    }
 }

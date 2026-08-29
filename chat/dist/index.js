@@ -92,6 +92,12 @@ var e = class {
         `, this.messageList.appendChild(t), this.messageList.scrollTop = this.messageList.scrollHeight;
 	}
 };
-typeof window < "u" && (window.ChatPlugin = e);
+if (typeof window < "u") {
+	window.ChatPlugin = e;
+	let t = () => {
+		document.getElementById("app") && new e("app").init();
+	};
+	document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", t) : t();
+}
 //#endregion
 export { e as ChatPlugin };
