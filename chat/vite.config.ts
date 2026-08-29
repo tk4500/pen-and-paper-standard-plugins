@@ -6,8 +6,12 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'index.ts'),
       name: 'ChatPlugin',
-      fileName: () => 'index.js',
       formats: ['es']
+    },
+    rollupOptions: {
+      output: {
+        entryFileNames: 'index.js'
+      }
     }
   }
 });

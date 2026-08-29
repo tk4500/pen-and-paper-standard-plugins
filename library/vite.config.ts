@@ -6,8 +6,12 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'LibraryPlugin',
-      fileName: () => 'library.js',
       formats: ['es']
+    },
+    rollupOptions: {
+      output: {
+        entryFileNames: 'index.js'
+      }
     }
   }
 });
