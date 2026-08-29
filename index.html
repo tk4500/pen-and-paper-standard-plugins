@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Plugin Test</title>
+</head>
+<body>
+    <h1>Chat Plugin Test</h1>
+    <div id="chat-container" style="width: 400px; margin: 20px;"></div>
+
+    <script type="module">
+        import { ChatPlugin } from './src/chat/ChatPlugin.ts';
+
+        // Mock the RPGCore SDK for testing
+        window.RPGCore = {
+            storage: {
+                uploadFile: async (file) => {
+                    console.log("Mock uploading file", file);
+                    return { url: "http://example.com/mock-file.png" };
+                }
+            },
+            chat: {
+                sendMessage: async (msg) => {
+                    console.log("Mock send message", msg);
+                    const sentMsg = { ...msg, id: Math.random().toString(), timestamp: Date.now() };
+
+                    // Simulate receiving the message back
+                    setTimeout(() => {
+                        if (window.mockOnMessage) window.mockOnMessage(sentMsg);
+                    }, 100);
+
+                    return sentMsg;
+                },
+                onMessage: (cb) => { window.mockOnMessage = cb; },
+                onDiceRoll: (cb) => { window.mockOnDiceRoll = cb; }
+            },
+            user: {
+                getProfiles: async () => [
+                    { id: '1', name: 'System', role: 'System' },
+                    { id: '2', name: 'Player 1', role: 'User' },
+                    { id: '3', name: 'Goblin', role: 'NPC' },
+                    { id: '4', name: 'DM', role: 'Narrator' }
+                ],
+                getActiveProfile: () => ({ id: '2', name: 'Player 1', role: 'User' })
+            }
+        };
+
+        const plugin = new ChatPlugin('chat-container');
+        plugin.init().then(() => {
+            // Simulate a dice roll
+            setTimeout(() => {
+                if (window.mockOnDiceRoll) {
+                    window.mockOnDiceRoll({
+                        rollId: "r1",
+                        formula: "2d6",
+                        faces: [3, 4],
+                        total: 7
+                    });
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
