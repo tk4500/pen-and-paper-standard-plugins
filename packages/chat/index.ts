@@ -1,4 +1,4 @@
-/// <reference path="../env.d.ts" />
+/// <reference path="./env.d.ts" />
 
 export class ChatPlugin {
     private container: HTMLElement;

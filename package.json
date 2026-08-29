@@ -1,16 +1,13 @@
 {
   "name": "pen-and-paper-standard-plugins",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && vite build"
+    "build": "npm run build --workspaces"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "description": "",
   "devDependencies": {
     "typescript": "^7.0.2",
     "vite": "^8.2.2"
