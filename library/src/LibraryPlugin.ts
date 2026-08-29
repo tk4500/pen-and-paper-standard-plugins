@@ -15,23 +15,45 @@ export class LibraryPlugin {
   private render() {
     this.container.innerHTML = `
       <style>
+        body {
+          background-color: #111827;
+          color: #f3f4f6;
+          margin: 0;
+          padding: 1rem;
+          font-family: sans-serif;
+          height: 100vh;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
         .library-plugin {
           display: flex;
           height: 100%;
           font-family: sans-serif;
-          background: #1e1e1e;
-          color: #fff;
+          background: #1e1e24; /* matched presence */
+          color: #e0e0e0;
+          border-radius: 8px;
+          overflow: hidden;
         }
         .sidebar {
           width: 200px;
-          border-right: 1px solid #333;
-          padding: 10px;
+          background: #1f2937;
+          border-right: 1px solid #374151;
+          padding: 15px;
+        }
+        .sidebar h3 {
+          margin-top: 0;
+          color: #9ca3af;
+          font-size: 14px;
+          text-transform: uppercase;
         }
         .main-content {
           flex: 1;
           display: flex;
           flex-direction: column;
-          padding: 10px;
+          padding: 15px;
+          background: #111827;
         }
         .header {
           display: flex;
@@ -39,33 +61,41 @@ export class LibraryPlugin {
           align-items: center;
           margin-bottom: 20px;
         }
+        .header h2 {
+          margin: 0;
+          font-size: 20px;
+          color: #f3f4f6;
+        }
         .upload-btn {
-          background: #4caf50;
+          background: #3b82f6;
           color: white;
           border: none;
           padding: 8px 16px;
           cursor: pointer;
-          border-radius: 4px;
+          border-radius: 6px;
+          font-weight: bold;
         }
         .upload-btn:hover {
-          background: #45a049;
+          background: #2563eb;
         }
         .file-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
           gap: 15px;
           overflow-y: auto;
+          flex-grow: 1;
         }
         .file-card {
-          background: #2a2a2a;
-          border: 1px solid #444;
+          background: #1f2937;
+          border: 1px solid #374151;
           border-radius: 8px;
           padding: 10px;
           text-align: center;
           cursor: pointer;
+          transition: border-color 0.2s;
         }
         .file-card:hover {
-          border-color: #4caf50;
+          border-color: #60a5fa;
         }
         .file-icon {
           font-size: 48px;
@@ -74,6 +104,7 @@ export class LibraryPlugin {
         .file-name {
           font-size: 12px;
           word-break: break-all;
+          color: #d1d5db;
         }
       </style>
       <div class="library-plugin">

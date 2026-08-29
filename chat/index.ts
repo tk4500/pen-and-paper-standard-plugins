@@ -15,24 +15,80 @@ export class ChatPlugin {
         }
         this.container = root;
 
+        // Inject standard Dark Theme styling
+        const style = document.createElement('style');
+        style.textContent = `
+            body {
+                background-color: #111827;
+                color: #f3f4f6;
+                margin: 0;
+                padding: 1rem;
+                font-family: sans-serif;
+                height: 100vh;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            .chat-plugin-container {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+            }
+            .chat-messages {
+                flex-grow: 1;
+                overflow-y: auto;
+                border: 1px solid #374151;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 6px;
+                background-color: #1f2937;
+            }
+            .chat-controls {
+                display: flex;
+                gap: 10px;
+            }
+            .chat-input {
+                flex: 1;
+                padding: 8px 12px;
+                border-radius: 6px;
+                border: 1px solid #374151;
+                background-color: #374151;
+                color: #f3f4f6;
+                outline: none;
+            }
+            .chat-input:focus {
+                border-color: #60a5fa;
+            }
+            button {
+                padding: 8px 16px;
+                border: none;
+                border-radius: 6px;
+                background-color: #3b82f6;
+                color: white;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #2563eb;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Wrap everything in a flex container
+        const wrapper = document.createElement('div');
+        wrapper.className = 'chat-plugin-container';
+
         // Initialize UI
         this.messageList = document.createElement('div');
         this.messageList.className = 'chat-messages';
-        this.messageList.style.height = '400px';
-        this.messageList.style.overflowY = 'auto';
-        this.messageList.style.border = '1px solid #ccc';
-        this.messageList.style.padding = '10px';
-        this.messageList.style.marginBottom = '10px';
 
         const controls = document.createElement('div');
         controls.className = 'chat-controls';
-        controls.style.display = 'flex';
-        controls.style.gap = '10px';
 
         this.input = document.createElement('input');
         this.input.type = 'text';
         this.input.className = 'chat-input';
-        this.input.style.flex = '1';
         this.input.placeholder = 'Type a message...';
 
         this.submitBtn = document.createElement('button');
@@ -45,8 +101,10 @@ export class ChatPlugin {
         controls.appendChild(this.submitBtn);
         controls.appendChild(this.uploadBtn);
 
-        this.container.appendChild(this.messageList);
-        this.container.appendChild(controls);
+        wrapper.appendChild(this.messageList);
+        wrapper.appendChild(controls);
+
+        this.container.appendChild(wrapper);
 
         this.bindEvents();
     }
@@ -156,16 +214,16 @@ export class ChatPlugin {
         const role = profile ? profile.role : 'User';
 
         // Basic styling based on role
-        let roleStyle = 'color: #333';
-        if (role === 'System') roleStyle = 'color: red; font-weight: bold;';
-        if (role === 'Narrator') roleStyle = 'color: purple; font-style: italic;';
-        if (role === 'NPC') roleStyle = 'color: green;';
+        let roleStyle = 'color: #9ca3af'; // Lighter grey for regular users
+        if (role === 'System') roleStyle = 'color: #ef4444; font-weight: bold;'; // Red-500
+        if (role === 'Narrator') roleStyle = 'color: #a855f7; font-style: italic;'; // Purple-500
+        if (role === 'NPC') roleStyle = 'color: #22c55e;'; // Green-500
 
         const time = new Date(msg.timestamp).toLocaleTimeString();
 
         el.innerHTML = `
-            <div style="font-size: 0.8em; color: #888;">[${time}] <span style="${roleStyle}">${name}</span>:</div>
-            <div>${this.parseBBCode(msg.text)}</div>
+            <div style="font-size: 0.8em; color: #6b7280;">[${time}] <span style="${roleStyle}">${name}</span>:</div>
+            <div style="color: #f3f4f6;">${this.parseBBCode(msg.text)}</div>
         `;
 
         this.messageList.appendChild(el);
@@ -177,8 +235,9 @@ export class ChatPlugin {
         el.className = 'chat-message dice-roll';
         el.style.marginBottom = '8px';
         el.style.padding = '5px';
-        el.style.backgroundColor = '#f0f0f0';
-        el.style.borderLeft = '4px solid #005cc5';
+        el.style.backgroundColor = '#374151'; // Dark theme background
+        el.style.color = '#f3f4f6';
+        el.style.borderLeft = '4px solid #3b82f6';
 
         el.innerHTML = `
             <div><strong>Dice Roll:</strong> ${result.formula}</div>

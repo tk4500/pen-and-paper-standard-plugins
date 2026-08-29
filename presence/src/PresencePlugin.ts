@@ -31,26 +31,36 @@ export class PresencePlugin {
   private setupStyles() {
     const style = document.createElement('style');
     style.textContent = `
+      body {
+        background-color: #111827;
+        color: #f3f4f6;
+        margin: 0;
+        padding: 1rem;
+        font-family: sans-serif;
+        height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
       .presence-plugin {
-        position: fixed;
-        right: 20px;
-        top: 20px;
-        width: 250px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
         background: #1e1e24;
         color: #e0e0e0;
         border-radius: 8px;
         padding: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        font-family: system-ui, -apple-system, sans-serif;
-        z-index: 1000;
-        max-height: 80vh;
+        box-sizing: border-box;
         overflow-y: auto;
       }
-      
+
       .presence-section {
         margin-bottom: 20px;
       }
-      
+
       .presence-section-title {
         font-size: 12px;
         text-transform: uppercase;
@@ -59,58 +69,62 @@ export class PresencePlugin {
         border-bottom: 1px solid #333;
         padding-bottom: 5px;
       }
-      
+
       .presence-user {
         display: flex;
         align-items: center;
+        gap: 10px;
         margin-bottom: 10px;
-        padding: 5px;
-        border-radius: 4px;
+        padding: 8px;
+        border-radius: 6px;
         background: #2a2a35;
       }
-      
+
       .presence-avatar {
-        width: 32px;
-        height: 32px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         background: #444;
-        margin-right: 10px;
+        flex-shrink: 0;
       }
-      
+
       .presence-info {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
       }
-      
+
       .presence-name {
         font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 4px;
+        font-weight: bold;
       }
-      
+
       .presence-bars {
         display: flex;
         flex-direction: column;
-        gap: 2px;
+        gap: 4px;
       }
-      
+
       .presence-bar-container {
-        height: 4px;
-        background: #444;
-        border-radius: 2px;
+        height: 12px;
+        background: #4b5563; /* Grey background wrapper */
+        border-radius: 6px;
         overflow: hidden;
+        border: 1px solid #374151;
       }
-      
+
       .presence-bar-fill {
         height: 100%;
         transition: width 0.3s ease;
       }
-      
+
       .presence-hp-fill {
-        background: #4caf50;
+        background: linear-gradient(90deg, #dc2626, #ef4444); /* Red inner bar */
       }
-      
+
       .presence-mana-fill {
-        background: #2196f3;
+        background: linear-gradient(90deg, #2563eb, #3b82f6); /* Blue inner bar */
       }
     `;
     document.head.appendChild(style);

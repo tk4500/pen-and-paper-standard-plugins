@@ -9,9 +9,13 @@ var e = class {
 	constructor(e) {
 		let t = document.getElementById(e);
 		if (!t) throw Error(`Container #${e} not found`);
-		this.container = t, this.messageList = document.createElement("div"), this.messageList.className = "chat-messages", this.messageList.style.height = "400px", this.messageList.style.overflowY = "auto", this.messageList.style.border = "1px solid #ccc", this.messageList.style.padding = "10px", this.messageList.style.marginBottom = "10px";
-		let n = document.createElement("div");
-		n.className = "chat-controls", n.style.display = "flex", n.style.gap = "10px", this.input = document.createElement("input"), this.input.type = "text", this.input.className = "chat-input", this.input.style.flex = "1", this.input.placeholder = "Type a message...", this.submitBtn = document.createElement("button"), this.submitBtn.textContent = "Send", this.uploadBtn = document.createElement("button"), this.uploadBtn.textContent = "Upload", n.appendChild(this.input), n.appendChild(this.submitBtn), n.appendChild(this.uploadBtn), this.container.appendChild(this.messageList), this.container.appendChild(n), this.bindEvents();
+		this.container = t;
+		let n = document.createElement("style");
+		n.textContent = "\n            body {\n                background-color: #111827;\n                color: #f3f4f6;\n                margin: 0;\n                padding: 1rem;\n                font-family: sans-serif;\n                height: 100vh;\n                box-sizing: border-box;\n                display: flex;\n                flex-direction: column;\n                overflow: hidden;\n            }\n            .chat-plugin-container {\n                display: flex;\n                flex-direction: column;\n                height: 100%;\n                width: 100%;\n            }\n            .chat-messages {\n                flex-grow: 1;\n                overflow-y: auto;\n                border: 1px solid #374151;\n                padding: 10px;\n                margin-bottom: 10px;\n                border-radius: 6px;\n                background-color: #1f2937;\n            }\n            .chat-controls {\n                display: flex;\n                gap: 10px;\n            }\n            .chat-input {\n                flex: 1;\n                padding: 8px 12px;\n                border-radius: 6px;\n                border: 1px solid #374151;\n                background-color: #374151;\n                color: #f3f4f6;\n                outline: none;\n            }\n            .chat-input:focus {\n                border-color: #60a5fa;\n            }\n            button {\n                padding: 8px 16px;\n                border: none;\n                border-radius: 6px;\n                background-color: #3b82f6;\n                color: white;\n                cursor: pointer;\n            }\n            button:hover {\n                background-color: #2563eb;\n            }\n        ", document.head.appendChild(n);
+		let r = document.createElement("div");
+		r.className = "chat-plugin-container", this.messageList = document.createElement("div"), this.messageList.className = "chat-messages";
+		let i = document.createElement("div");
+		i.className = "chat-controls", this.input = document.createElement("input"), this.input.type = "text", this.input.className = "chat-input", this.input.placeholder = "Type a message...", this.submitBtn = document.createElement("button"), this.submitBtn.textContent = "Send", this.uploadBtn = document.createElement("button"), this.uploadBtn.textContent = "Upload", i.appendChild(this.input), i.appendChild(this.submitBtn), i.appendChild(this.uploadBtn), r.appendChild(this.messageList), r.appendChild(i), this.container.appendChild(r), this.bindEvents();
 	}
 	async init() {
 		if (!window.RPGCore) {
@@ -74,15 +78,15 @@ var e = class {
 	renderMessage(e) {
 		let t = document.createElement("div");
 		t.className = "chat-message", t.style.marginBottom = "8px";
-		let n = this.profiles.get(e.profileId), r = n ? n.name : e.profileId === "local" ? "You" : "Unknown", i = n ? n.role : "User", a = "color: #333";
-		i === "System" && (a = "color: red; font-weight: bold;"), i === "Narrator" && (a = "color: purple; font-style: italic;"), i === "NPC" && (a = "color: green;"), t.innerHTML = `
-            <div style="font-size: 0.8em; color: #888;">[${new Date(e.timestamp).toLocaleTimeString()}] <span style="${a}">${r}</span>:</div>
-            <div>${this.parseBBCode(e.text)}</div>
+		let n = this.profiles.get(e.profileId), r = n ? n.name : e.profileId === "local" ? "You" : "Unknown", i = n ? n.role : "User", a = "color: #9ca3af";
+		i === "System" && (a = "color: #ef4444; font-weight: bold;"), i === "Narrator" && (a = "color: #a855f7; font-style: italic;"), i === "NPC" && (a = "color: #22c55e;"), t.innerHTML = `
+            <div style="font-size: 0.8em; color: #6b7280;">[${new Date(e.timestamp).toLocaleTimeString()}] <span style="${a}">${r}</span>:</div>
+            <div style="color: #f3f4f6;">${this.parseBBCode(e.text)}</div>
         `, this.messageList.appendChild(t), this.messageList.scrollTop = this.messageList.scrollHeight;
 	}
 	renderDiceRoll(e) {
 		let t = document.createElement("div");
-		t.className = "chat-message dice-roll", t.style.marginBottom = "8px", t.style.padding = "5px", t.style.backgroundColor = "#f0f0f0", t.style.borderLeft = "4px solid #005cc5", t.innerHTML = `
+		t.className = "chat-message dice-roll", t.style.marginBottom = "8px", t.style.padding = "5px", t.style.backgroundColor = "#374151", t.style.color = "#f3f4f6", t.style.borderLeft = "4px solid #3b82f6", t.innerHTML = `
             <div><strong>Dice Roll:</strong> ${e.formula}</div>
             <div>Result: [${e.faces.join(", ")}] = <strong>${e.total}</strong></div>
         `, this.messageList.appendChild(t), this.messageList.scrollTop = this.messageList.scrollHeight;
